@@ -26,19 +26,6 @@ class Admin {
         return $query->fetchAll();
 	}
 
-	public function remove_subject($id) {
-		$query = DB::get()->prepare("DELETE FROM subjects WHERE id=?");
-		$query = $query->execute([$id]);
-
-		$query = DB::get()->prepare("DELETE FROM subjects_in_group WHERE subject_id = ?");
-		$query = $query->execute([$id]);
-
-		$query = DB::get()->prepare("DELETE FROM marks WHERE subject_id = ?");
-		$query = $query->execute([$id]);
-
-		header('Location: '. $_SERVER['PHP_SELF']);
-	}
-
 	public function make_subject($name) {
 		try {
 			$query = DB::get()->prepare("INSERT INTO subjects (name) VALUES (?)");
@@ -55,14 +42,27 @@ class Admin {
 		header('Location: '. $_SERVER['HTTP_REFERER'] . '/../subjects.php');
 	}
 
+	public function remove_subject($id) {
+		$query = DB::get()->prepare("DELETE FROM subjects WHERE id=?");
+		$query = $query->execute([$id]);
+
+		$query = DB::get()->prepare("DELETE FROM subjects_in_group WHERE subject_id = ?");
+		$query = $query->execute([$id]);
+
+		$query = DB::get()->prepare("DELETE FROM marks WHERE subject_id = ?");
+		$query = $query->execute([$id]);
+
+		header('Location: '. $_SERVER['PHP_SELF']);
+	}
+
 	public function remove_group($id) {
-		$query = DB::get()->prepare("DELETE FROM groups WHERE id=?");
+		$query = DB::get()->prepare("DELETE FROM groups WHERE id = ?");
 		$query = $query->execute([$id]);
 
-		$query = DB::get()->prepare("DELETE FROM subjects_in_group WHERE group_id=?");
+		$query = DB::get()->prepare("DELETE FROM subjects_in_group WHERE group_id = ?");
 		$query = $query->execute([$id]);
 
-		$query = DB::get()->prepare("UPDATE users SET group = ? WHERE group = ?");
+		$query = DB::get()->prepare("UPDATE users SET `group` = ? WHERE `group` = ?");
 		$query = $query->execute([null, $id]);
 
 		header('Location: '. $_SERVER['PHP_SELF']);
