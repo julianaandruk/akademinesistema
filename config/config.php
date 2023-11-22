@@ -13,6 +13,9 @@ class DB {
         if (self::$instance == null) {
             try {
                 self::$instance = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
+				self::$instance->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+				self::$instance->setAttribute( PDO::ATTR_EMULATE_PREPARES, FALSE );
+				
             } catch(PDOException $e) {
                 die("Nepavyko prisijungti prie duomenu bazes: " . $e->getMessage());
             }
