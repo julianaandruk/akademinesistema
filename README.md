@@ -1,5 +1,6 @@
 # Akademinė sistema
-Juliana Andrukonis PI22A
+Juliana AndrukonisPI22A
+Meda Kynaitė PI22A
 
 Vilniaus Kolegija
 
